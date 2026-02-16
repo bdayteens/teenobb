@@ -1,395 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday [Name]!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        /* Global Styles */
-        body {
-            font-family: 'Quicksand', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0, #a29bfe, #fd79a8);
-            color: #2d3436;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-        h1, h2, h3 {
-            font-family: 'Fredoka One', cursive;
-            color: #e84393;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        button {
-            font-family: 'Quicksand', sans-serif;
-            background: #fdcb6e;
-            border: none;
-            border-radius: 50px;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-        .section {
-            margin: 40px 0;
-            padding: 20px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .hidden {
-            display: none;
-        }
-        /* Hero Section */
-        #hero {
-            text-align: center;
-            padding: 100px 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        #hero h1 {
-            font-size: 3rem;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-        .balloon {
-            position: absolute;
-            width: 50px;
-            height: 70px;
-            background: radial-gradient(circle, #ff7675, #e84393);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: float 6s infinite ease-in-out;
-        }
-        .balloon:nth-child(1) { left: 10%; animation-delay: 0s; }
-        .balloon:nth-child(2) { left: 30%; animation-delay: 2s; }
-        .balloon:nth-child(3) { left: 50%; animation-delay: 4s; }
-        .balloon:nth-child(4) { left: 70%; animation-delay: 1s; }
-        .balloon:nth-child(5) { left: 90%; animation-delay: 3s; }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        #music-controls {
-            margin-top: 20px;
-        }
-        /* Interactive Features */
-        #cake {
-            width: 200px;
-            height: 150px;
-            background: #f8c291;
-            border-radius: 50% 50% 0 0;
-            position: relative;
-            margin: 0 auto;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        #cake:hover {
-            transform: scale(1.1);
-        }
-        .candle {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 5px;
-            height: 30px;
-            background: #ffeaa7;
-            border-radius: 2px;
-        }
-        .flame {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 10px;
-            height: 15px;
-            background: #ff7675;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: flicker 1s infinite;
-        }
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .blown { opacity: 0; }
-        /* Photo Gallery */
-        .gallery {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding: 10px;
-        }
-        .gallery img {
-            width: 200px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: transform 0.3s;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
-        /* Countdown */
-        #countdown {
-            text-align: center;
-            font-size: 1.5rem;
-        }
-        /* Guestbook */
-        #guestbook {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        #wishes {
-            list-style: none;
-            padding: 0;
-        }
-        #wishes li {
-            background: #ffeaa7;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 10px;
-        }
-        /* Reactions */
-        .reactions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .reaction {
-            font-size: 2rem;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .reaction:hover {
-            transform: scale(1.2);
-        }
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255,255,255,0.8);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            #hero h1 { font-size: 2rem; }
-            .gallery img { width: 150px; height: 112px; }
-            #cake { width: 150px; height: 112px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Teeenaa</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+
+/* ===== Global ===== */
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#fff5f7,#ffe3ec,#f8edff);
+    color:#444;
+    overflow-x:hidden;
+}
+
+h1,h2{
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+}
+
+/* ===== Floating Hearts ===== */
+.hearts{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.heart{
+    position:absolute;
+    color:rgba(255,105,180,0.4);
+    animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+    0%{transform:translateY(100vh) scale(1);opacity:0;}
+    10%{opacity:1;}
+    100%{transform:translateY(-10vh) scale(1.5);opacity:0;}
+}
+
+/* ===== Hero ===== */
+#hero{
+    text-align:center;
+    padding:120px 20px 80px;
+}
+
+#hero h1{
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+#hero p{
+    font-size:1.1rem;
+    opacity:0.8;
+}
+
+/* ===== Section Styling ===== */
+.section{
+    max-width:1000px;
+    margin:60px auto;
+    padding:40px;
+    background:rgba(255,255,255,0.85);
+    border-radius:20px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.05);
+    text-align:center;
+}
+
+/* ===== Gallery ===== */
+.gallery{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.gallery img{
+    width:260px;
+    height:180px;
+    object-fit:cover;
+    border-radius:20px;
+    transition:0.4s ease;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.gallery img:hover{
+    transform:scale(1.05);
+}
+
+/* ===== Cake ===== */
+#cake{
+    width:220px;
+    height:160px;
+    background:#f8c291;
+    border-radius:50% 50% 0 0;
+    margin:30px auto;
+    position:relative;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#cake:hover{
+    transform:scale(1.05);
+}
+
+.candle{
+    position:absolute;
+    width:6px;
+    height:35px;
+    background:#fff;
+    top:-30px;
+}
+
+.candle:nth-child(1){left:40%;}
+.candle:nth-child(2){left:50%;}
+.candle:nth-child(3){left:60%;}
+
+.flame{
+    width:12px;
+    height:18px;
+    background:orange;
+    border-radius:50%;
+    position:absolute;
+    top:-18px;
+    left:-3px;
+    opacity:0;
+    box-shadow:0 0 15px orange;
+}
+
+.flame.active{
+    opacity:1;
+    animation:flicker 1s infinite;
+}
+
+@keyframes flicker{
+    0%,100%{opacity:1;}
+    50%{opacity:0.6;}
+}
+
+/* ===== Button ===== */
+button{
+    padding:12px 28px;
+    border:none;
+    border-radius:50px;
+    background:#ffcad4;
+    cursor:pointer;
+    font-size:1rem;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#f4acb7;
+    transform:scale(1.05);
+}
+
+/* ===== Envelope ===== */
+.envelope{
+    width:300px;
+    margin:30px auto 0;
+    padding:25px;
+    background:#fff0f6;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.08);
+    transform:scale(0);
+    transition:0.5s ease;
+}
+
+.envelope.show{
+    transform:scale(1);
+}
+
+@media(max-width:768px){
+    #hero h1{font-size:2.2rem;}
+    .gallery img{width:90%;height:auto;}
+}
+
+</style>
 </head>
+
 <body>
-    <div id="hero">
-        <h1>🎉 Happy Birthday TINAA! 🎂</h1>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div id="music-controls">
-            <button id="play-music">🎵 Play Music</button>
-            <button id="toggle-sounds">🔊 Sounds On</button>
-        </div>
-        <audio id="bg-music" loop>
-            <source src="C:\Users\BIT\Desktop\hbdsound.mp3" type="audio/wav"> 
-        </audio>
+
+<div class="hearts"></div>
+
+<section id="hero">
+    <h1>Happy Birthday, Teeenaa</h1>
+    <p>Some people just make everything softer.</p>
+</section>
+
+<section class="section">
+    <h2>Moments</h2>
+    <div class="gallery">
+        <img src="https://via.placeholder.com/300x200/ffc8dd/ffffff" alt="">
+        <img src="https://via.placeholder.com/300x200/f8edeb/ffffff" alt="">
+        <img src="https://via.placeholder.com/300x200/e2ece9/ffffff" alt="">
     </div>
+</section>
 
-    <div class="container">
-        <section class="section" id="interactive">
-            <h2>Let's Celebrate!</h2>
-            <p>Tap the cake to blow out the candles! 🎂</p>
-            <div id="cake">
-                <div class="candle">
-                    <div class="flame"></div>
-                </div>
-            </div>
-            <br>
-            <button id="confetti-btn">🎉 Burst Confetti!</button>
-            <button id="sparkle-btn">✨ Sparkle!</button>
-            <button id="surprise-btn">🎁 Surprise!</button>
-            <div id="surprise-message" class="hidden">
-                <p>You're the best, Teenoww ! Here's to many more Chena Toast! 🥳</p>
-            </div>
-        </section>
-
-        <section class="section" id="personal">
-            <h2>About You</h2>
-            <p>Happy Birthday, Tina! You're kind, funny, and full of energy. Wishing you a year of joy and laughter! 🎈</p>
-            <h3>Photo Gallery</h3>
-            <div class="gallery">
-                <img src="https://via.placeholder.com/200x150/ff7675/ffffff?text=Photo+1" alt="Birthday photo 1">
-                <img src="https://via.placeholder.com/200x150/fab1a0/ffffff?text=Photo+2" alt="Birthday photo 2">
-                <img src="https://via.placeholder.com/200x150/a29bfe/ffffff?text=Photo+3" alt="Birthday photo 3">
-            </div>
-            <h3>Digital Birthday Card</h3>
-            <div style="border: 2px solid #e84393; padding: 20px; border-radius: 10px; text-align: center;">
-                <p>Dear [Name],</p>
-                <p>On your special day, I want you to know how much you mean to us. May your year be filled with love, success, and endless fun! ❤️</p>
-                <p>With all our love,</p>
-                <p>Your Friends & Family</p>
-            </div>
-            <div id="countdown">
-                <p>Time since you turned 21: <span id="time-since">Calculating...</span> 🎈</p>
-            </div>
-        </section>
-
-        <section class="section" id="interactions">
-            <h2>Join the Fun!</h2>
-            <div id="guestbook">
-                <h3>Leave a Wish</h3>
-                <input type="text" id="wish-input" placeholder="Write a short birthday wish..." maxlength="100">
-                <button id="add-wish">Add Wish</button>
-                <ul id="wishes"></ul>
-            </div>
-            <div class="reactions">
-                <span class="reaction" data-emoji="🎉" id="react-celebrate">🎉 <span id="count-celebrate">0</span></span>
-                <span class="reaction" data-emoji="❤️" id="react-love">❤️ <span id="count-love">0</span></span>
-                <span class="reaction" data-emoji="🎂" id="react-cake">🎂 <span id="count-cake">0</span></span>
-                <span class="reaction" data-emoji="🥳" id="react-party">🥳 <span id="count-party">0</span></span>
-            </div>
-        </section>
+<section class="section">
+    <h2>Make a Wish</h2>
+    <div id="cake">
+        <div class="candle"><div class="flame"></div></div>
+        <div class="candle"><div class="flame"></div></div>
+        <div class="candle"><div class="flame"></div></div>
     </div>
+</section>
 
-    <footer>
-        <p>Made with ❤️</p>
-    </footer>
+<section class="section">
+    <button id="surprise-btn">Open Your Surprise</button>
+    <div class="envelope" id="letter">
+        You make life brighter in the most effortless way.  
+        I’m really grateful for you.
+    </div>
+</section>
 
-    <script>
-        // Variables
-        const name = "[Name]";
-        const birthdayDate = new Date("2004-11-08"); // Replace with actual birthday
-        const age = Math.floor((new Date() - birthdayDate) / (1000 * 60 * 60 * 24 * 365.25));
-        let soundsOn = true;
+<script>
 
-        // Music Controls
-        const music = document.getElementById("bg-music");
-        const playBtn = document.getElementById("play-music");
-        playBtn.addEventListener("click", () => {
-            if (music.paused) {
-                music.play();
-                playBtn.textContent = "⏸️ Pause Music";
-            } else {
-                music.pause();
-                playBtn.textContent = "🎵 Play Music";
-            }
-        });
+/* Floating Hearts */
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*20+15)+"px";
+    heart.style.animationDuration=(Math.random()*5+5)+"s";
+    document.querySelector(".hearts").appendChild(heart);
+    setTimeout(()=>heart.remove(),10000);
+}
+setInterval(createHeart,500);
 
-        // Toggle Sounds
-        const toggleSoundsBtn = document.getElementById("toggle-sounds");
-        toggleSoundsBtn.addEventListener("click", () => {
-            soundsOn = !soundsOn;
-            toggleSoundsBtn.textContent = soundsOn ? "🔊 Sounds On" : "🔇 Sounds Off";
-        });
+/* Cake Interaction */
+const cake=document.getElementById("cake");
+const flames=document.querySelectorAll(".flame");
 
-        // Cake Interaction
-        const cake = document.getElementById("cake");
-        const flame = document.querySelector(".flame");
-        cake.addEventListener("click", () => {
-            flame.classList.add("blown");
-            if (soundsOn) playSound("https://www.soundjay.com/misc/sounds/blow.wav"); // Placeholder blow sound
-            setTimeout(() => flame.classList.remove("blown"), 2000);
-        });
+cake.addEventListener("click",()=>{
+    flames.forEach(f=>f.classList.toggle("active"));
 
-        // Confetti
-        document.getElementById("confetti-btn").addEventListener("click", () => {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            if (soundsOn) playSound("https://www.soundjay.com/misc/sounds/pop.wav");
-        });
+    confetti({
+        particleCount:150,
+        spread:90,
+        origin:{y:0.6}
+    });
+});
 
-        // Sparkle
-        document.getElementById("sparkle-btn").addEventListener("click", () => {
-            // Simple sparkle effect
-            const sparkle = document.createElement("div");
-            sparkle.textContent = "✨";
-            sparkle.style.position = "fixed";
-            sparkle.style.top = "50%";
-            sparkle.style.left = "50%";
-            sparkle.style.fontSize = "3rem";
-            sparkle.style.animation = "float 2s ease-out";
-            document.body.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 2000);
-            if (soundsOn) playSound("https://www.soundjay.com/misc/sounds/sparkle.wav");
-        });
+/* Surprise Letter */
+document.getElementById("surprise-btn").addEventListener("click",()=>{
+    document.getElementById("letter").classList.toggle("show");
+});
 
-        // Surprise
-        document.getElementById("surprise-btn").addEventListener("click", () => {
-            const surprise = document.getElementById("surprise-message");
-            surprise.classList.toggle("hidden");
-            if (soundsOn) playSound("https://www.soundjay.com/misc/sounds/surprise.wav");
-        });
+</script>
 
-        // Countdown
-        function updateCountdown() {
-            const now = new Date();
-            const diff = now - birthdayDate;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("time-since").textContent = `${days} days, ${hours} hours`;
-        }
-        updateCountdown();
-        setInterval(updateCountdown, 60000); // Update every minute
-
-        // Guestbook
-        const wishInput = document.getElementById("wish-input");
-        const addWishBtn = document.getElementById("add-wish");
-        const wishesList = document.getElementById("wishes");
-        let wishes = JSON.parse(localStorage.getItem("birthdayWishes")) || [];
-        wishes.forEach(wish => addWishToList(wish));
-        addWishBtn.addEventListener("click", () => {
-            const wish = wishInput.value.trim();
-            if (wish) {
-                wishes.push(wish);
-                localStorage.setItem("birthdayWishes", JSON.stringify(wishes));
-                addWishToList(wish);
-                wishInput.value = "";
-            }
-        });
-        function addWishToList(wish) {
-            const li = document.createElement("li");
-            li.textContent = wish;
-            wishesList.appendChild(li);
-        }
-
-        // Reactions
-        const reactions = ["celebrate", "love", "cake", "party"];
-        reactions.forEach(type => {
-            const btn = document.getElementById(`react-${type}`);
-            const count = document.getElementById(`count-${type}`);
-            let currentCount = parseInt(localStorage.getItem(`reaction-${type}`)) || 0;
-            count.textContent = currentCount;
-            btn.addEventListener("click", () => {
-                currentCount++;
-                count.textContent = currentCount;
-                localStorage.setItem(`reaction-${type}`, currentCount);
-                if (soundsOn) playSound("https://www.soundjay.com/misc/sounds/click.wav");
-            });
-        });
-
-        // Helper: Play Sound
-        function playSound(src) {
-            const audio = new Audio(src);
-            audio.play();
-        }
-    </script>
 </body>
 </html>
