@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,6 +46,7 @@
             background: rgba(255,255,255,0.9);
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
         }
         .hidden {
             display: none;
@@ -127,12 +127,118 @@
             50% { opacity: 0.5; }
         }
         .blown { opacity: 0; }
+        
+        /* 🌻 GARDEN ANIMATION STYLES 🌻 */
+        .garden-bed {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 200px;
+            gap: 40px;
+            padding-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .flower-pot {
+            position: relative;
+            width: 60px;
+            height: 150px;
+            transform-origin: bottom center;
+        }
+
+        /* Stem for all flowers */
+        .stem {
+            width: 8px;
+            height: 100%;
+            background: #55efc4;
+            margin: 0 auto;
+            border-radius: 4px;
+            position: relative;
+        }
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background: #55efc4;
+            border-radius: 20px 0;
+        }
+        .leaf.left { top: 50%; left: -15px; }
+        .leaf.right { top: 70%; right: -15px; transform: scaleX(-1); }
+
+        /* Sunflower Specifics */
+        .sunflower .flower-head {
+            width: 60px;
+            height: 60px;
+            background: #6d4c41; /* Brown center */
+            border-radius: 50%;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            box-shadow: 0 0 0 15px #f1c40f; /* Yellow Petals using shadow */
+            border: 5px dashed #f39c12; /* Inner texture */
+        }
+        .sunflower {
+            animation: sway 3s infinite ease-in-out alternate;
+        }
+
+        /* Blue Lily Specifics */
+        .lily .flower-head {
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        /* Creating lily petals using borders */
+        .lily-petal-center {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            background: linear-gradient(to top, #6c5ce7, #a29bfe);
+            border-radius: 50% 50% 0 0;
+            left: -20px;
+            top: -10px;
+        }
+        .lily-petal-left {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(to top, #5f27cd, #8e44ad);
+            border-radius: 50% 50% 0 0;
+            transform: rotate(-45deg);
+            left: -35px;
+            top: 0px;
+        }
+        .lily-petal-right {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(to top, #5f27cd, #8e44ad);
+            border-radius: 50% 50% 0 0;
+            transform: rotate(45deg);
+            left: 5px;
+            top: 0px;
+        }
+        .lily {
+            animation: sway 4s infinite ease-in-out alternate-reverse; /* Sway opposite to sunflower */
+        }
+
+        @keyframes sway {
+            0% { transform: rotate(-5deg); }
+            100% { transform: rotate(5deg); }
+        }
+        /* 🌻 END GARDEN STYLES 🌻 */
+
         /* Photo Gallery */
         .gallery {
             display: flex;
             overflow-x: auto;
             gap: 10px;
             padding: 10px;
+            justify-content: center;
         }
         .gallery img {
             width: 200px;
@@ -230,22 +336,64 @@
             <button id="surprise-btn">🎁 Surprise!</button>
             <div id="surprise-message" class="hidden">
                 <p> 21 ki hogyi, wow. Abhi early 20s start hogye, ab fast fast paisa kama lo, Chicago dream bhi toh pura krna hai. ❤️
-                    
-                    
-                   </p>
+                   
+                   
+                  </p>
             </div>
         </section>
 
+        <section class="section" id="garden">
+            <h2>Your Digital Garden</h2>
+            <p>Some Sunflowers and Blue Lilies, just for you! 🌻💙</p>
+            <div class="garden-bed">
+                <div class="flower-pot sunflower">
+                    <div class="flower-head"></div>
+                    <div class="stem">
+                        <div class="leaf left"></div>
+                        <div class="leaf right"></div>
+                    </div>
+                </div>
+                
+                <div class="flower-pot lily">
+                    <div class="flower-head">
+                        <div class="lily-petal-left"></div>
+                        <div class="lily-petal-center"></div>
+                        <div class="lily-petal-right"></div>
+                    </div>
+                    <div class="stem">
+                        <div class="leaf left"></div>
+                    </div>
+                </div>
+
+                <div class="flower-pot sunflower" style="animation-delay: 1s;">
+                    <div class="flower-head"></div>
+                    <div class="stem">
+                        <div class="leaf left" style="top: 40%"></div>
+                    </div>
+                </div>
+
+                <div class="flower-pot lily" style="animation-delay: 0.5s;">
+                    <div class="flower-head">
+                        <div class="lily-petal-left"></div>
+                        <div class="lily-petal-center"></div>
+                        <div class="lily-petal-right"></div>
+                    </div>
+                    <div class="stem">
+                        <div class="leaf right"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="section" id="personal">
             <h2>About You</h2>
             Happy Birthday, Tina! Golden retriever pasand hai… kyunki obviously tujhe apni energy ka competition chaiye.
                 
-<p>Blue orchids aur lilies pasand hain… kyunki normal chizein toh aapki personality ko suit karti h nhi. </p>
-<p>ummmm, or small spoon bnna h lkn — standards har jagah high h. </p>
+            <p>Blue orchids aur lilies pasand hain… kyunki normal chizein toh aapki personality ko suit karti h nhi. </p>
+            <p>ummmm, or small spoon bnna h lkn — standards har jagah high h. </p>
               
 
-white sauce pasta or chena toast?
-Asli pyaar toh vahi hai .!
+            white sauce pasta or chena toast?
+            Asli pyaar toh vahi hai .!
                   damn, kya hi likh diya wow..🎈</p>
             <h3>Photo Gallery</h3>
             <div class="gallery">
