@@ -302,6 +302,15 @@
             .gallery img { width: 150px; height: 112px; }
             #cake { width: 150px; height: 112px; }
         }
+        
+        /* Cursor for typing effect */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -335,10 +344,7 @@
             <button id="sparkle-btn">✨ Sparkle!</button>
             <button id="surprise-btn">🎁 Surprise!</button>
             <div id="surprise-message" class="hidden">
-                <p> 21 ki hogyi, wow. Abhi early 20s start hogye, ab fast fast paisa kama lo, Chicago dream bhi toh pura krna hai. ❤️
-                   
-                   
-                  </p>
+                <p class="typing-cursor"></p>
             </div>
         </section>
 
@@ -430,10 +436,6 @@
         </section>
     </div>
 
-    <footer>
-        <p>Made with ❤️</p>
-    </footer>
-
     <script>
         // Variables
         const name = "[Name]";
@@ -491,11 +493,35 @@
             if (soundsOn) playSound("https://www.soundjay.com/misc/sounds/sparkle.wav");
         });
 
-        // Surprise
+        // --- TYPING ANIMATION FOR SURPRISE ---
+        const surpriseText = "21 ki hogyi, wow. Abhi early 20s start hogye, ab fast fast paisa kama lo, Chicago dream bhi toh pura krna hai. ❤️";
+        const surpriseDiv = document.getElementById("surprise-message");
+        const surpriseP = surpriseDiv.querySelector("p");
+        
         document.getElementById("surprise-btn").addEventListener("click", () => {
-            const surprise = document.getElementById("surprise-message");
-            surprise.classList.toggle("hidden");
-            if (soundsOn) playSound("https://www.soundjay.com/misc/sounds/surprise.wav");
+            // If hidden, show and type
+            if (surpriseDiv.classList.contains("hidden")) {
+                surpriseDiv.classList.remove("hidden");
+                surpriseP.textContent = ""; // Start empty
+                
+                let i = 0;
+                const chars = Array.from(surpriseText); // Handles emoji correctly
+                
+                function typeWriter() {
+                    if (i < chars.length) {
+                        surpriseP.textContent += chars[i];
+                        i++;
+                        setTimeout(typeWriter, 50); // Adjust speed here (lower is faster)
+                    }
+                }
+                
+                typeWriter();
+                if (soundsOn) playSound("https://www.soundjay.com/misc/sounds/surprise.wav");
+            } else {
+                // If showing, hide and reset
+                surpriseDiv.classList.add("hidden");
+                surpriseP.textContent = "";
+            }
         });
 
         // Countdown
@@ -509,17 +535,18 @@
         updateCountdown();
         setInterval(updateCountdown, 60000); // Update every minute
 
-        // Guestbook
+        // Guestbook (Modified: Does NOT load previous wishes)
         const wishInput = document.getElementById("wish-input");
         const addWishBtn = document.getElementById("add-wish");
         const wishesList = document.getElementById("wishes");
-        let wishes = JSON.parse(localStorage.getItem("birthdayWishes")) || [];
-        wishes.forEach(wish => addWishToList(wish));
+        
+        // We removed the code that loads from localStorage here
+        
         addWishBtn.addEventListener("click", () => {
             const wish = wishInput.value.trim();
             if (wish) {
-                wishes.push(wish);
-                localStorage.setItem("birthdayWishes", JSON.stringify(wishes));
+                // We add it to the current view, but we don't save it to localStorage anymore
+                // so it disappears on refresh (as per request to remove displayed wishes)
                 addWishToList(wish);
                 wishInput.value = "";
             }
